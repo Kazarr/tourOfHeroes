@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Hero} from '../Hero'
-import {HeroService} from '../hero.service';
-
+import { Hero } from '../Hero';
+import { HeroService } from '../hero.service';
+import { Store, select } from '@ngrx/store';
+import { ThrowStmt } from '@angular/compiler';
+import { State } from '../state/app.state';
+import * as fromHeroes from './state/heroes.selector';
+import * as heroActions from './state/heroes.actions';
 
 @Component({
   selector: 'app-heroes',
@@ -11,29 +15,36 @@ import {HeroService} from '../hero.service';
 export class HeroesComponent implements OnInit {
   heroes: Hero[];
 
-  
-  constructor(private heroService: HeroService) { }
 
-  ngOnInit() { 
-    this.getHeroes()
+  constructor(private heroService: HeroService,
+              private store: Store<State>) { }
+
+  ngOnInit() {
+    this.store.pipe(select(fromHeroes.getHeroes)).subscribe(
+      heroes => this.heroes = heroes
+    );
+
+    this.heroService.getHeroes().subscribe(
+      fetchedHeroes => this.store.dispatch(new heroActions.GetHeroes(fetchedHeroes)),
+      err => console.log(err)
+    );
   }
 
-  getHeroes(): void{
-    this.heroService.getHeroes()
-    .subscribe(heroes=> this.heroes = heroes);
+  onClick(hero: Hero) {
+    this.store.dispatch(new heroActions.SetCurrentHero(hero));
   }
 
-  add(name: string): void{
+  add(name: string): void {
     name = name.trim();
-    if(!name) {return;}
-    this.heroService.addHero({name} as Hero)
-      .subscribe(hero => {
-        this.heroes.push(hero);
-      })
+    if (!name) { return; }
+    this.heroService.addHero({ name } as Hero).subscribe(
+      hero => this.store.dispatch(new heroActions.SaveHero(hero))
+    );
   }
 
-  delete(hero: Hero): void{
-    this.heroes = this.heroes.filter(h => h !== hero);
-    this.heroService.deleteHero(hero).subscribe();
+  delete(hero: Hero): void {
+    this.heroService.deleteHero(hero).subscribe(
+      () => this.store.dispatch(new heroActions.DeleteHero(hero))
+    );
   }
 }
