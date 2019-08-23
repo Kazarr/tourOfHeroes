@@ -47,6 +47,15 @@ export function reducer(state = initialState, action: HeroActions): HeroState {
         heroes: [...state.heroes, action.payload]
       };
 
+    case HeroActionTypes.UpdateHero:
+      const newHeroes = state.heroes;
+      const heroIndex = newHeroes.findIndex(h => h.id === action.payload.id);
+      newHeroes[heroIndex] = action.payload;
+      return {
+          ...state,
+          heroes: newHeroes
+        };
+
     default:
       return state;
   }

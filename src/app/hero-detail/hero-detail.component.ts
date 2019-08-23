@@ -3,13 +3,13 @@ import { Hero } from '../hero';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import {Store, select} from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 import { State } from '../state/app.state';
 import * as heroActions from '../heroes/state/heroes.actions';
 import * as fromHeroes from '../heroes/state/heroes.selector';
 
-import { HeroService }  from '../hero.service';
+import { HeroService } from '../hero.service';
 
 
 @Component({
@@ -20,10 +20,11 @@ import { HeroService }  from '../hero.service';
 export class HeroDetailComponent implements OnInit {
   @Input() hero: Hero;
 
-  constructor(private route: ActivatedRoute,
-              private heroService: HeroService,
-              private location: Location,
-              private store: Store<State> ) { }
+  constructor(
+    private route: ActivatedRoute,
+    private heroService: HeroService,
+    private location: Location,
+    private store: Store<State>) { }
 
   ngOnInit() {
     this.store.pipe(select(fromHeroes.getCurrentHero)).subscribe(
@@ -37,11 +38,15 @@ export class HeroDetailComponent implements OnInit {
   //   .subscribe(hero => this.hero = hero);
   // }
 
-  goBack():void{
+  goBack(): void {
     this.location.back();
   }
 
-  save(): void{
-    this.store.dispatch(new heroActions.SaveHero(this.hero));
+  save(): void {
+    this.heroService.updateHero(this.hero).subscribe(
+      () => {this.store.dispatch(new heroActions.UpdateHero(this.hero));
+             this.goBack();
+      }
+    );
   }
 }
