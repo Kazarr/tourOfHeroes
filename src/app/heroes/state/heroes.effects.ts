@@ -5,7 +5,6 @@ import { Observable, of } from 'rxjs';
 import * as heroActions from './heroes.actions';
 import { mergeMap, map, catchError, concatMap, merge } from 'rxjs/operators';
 import { HeroService } from '../../hero.service';
-import { Hero } from 'src/app/hero';
 
 
 @Injectable()
@@ -52,13 +51,4 @@ export class HeroesEffects {
       catchError((err: string) => of(new heroActions.UpdateHeroFailed(err))))
     ))
   );
-
-  // @Effect()
-  // reloadUser$: Observable<Action> = this.actions$.pipe(
-  //     ofType(
-  //         userActions.UserActionTypes.UpdateSuccess),
-  //     map(() => new userActions.Load()
-  //     )
-  // );
-
 }

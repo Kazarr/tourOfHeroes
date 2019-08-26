@@ -24,7 +24,7 @@ export class HeroesComponent implements OnInit {
     this.refreshHeroesFromState();
   }
 
-  refreshHeroesFromState(){
+  refreshHeroesFromState() {
     this.store.dispatch(new heroActions.GetHeroes());
     this.store.pipe(select(fromHeroes.getHeroes)).subscribe(
       fetchedHeroes => this.heroes = fetchedHeroes
@@ -43,9 +43,5 @@ export class HeroesComponent implements OnInit {
 
   delete(hero: Hero): void {
     this.store.dispatch(new heroActions.DeleteHero(hero));
-    // this.refreshHeroesFromState();
-    // this.heroService.deleteHero(hero).subscribe(
-    //   () => this.store.dispatch(new heroActions.DeleteHero(hero))
-    // );
   }
 }
