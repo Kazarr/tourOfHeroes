@@ -16,6 +16,8 @@ import { MessagesComponent } from './messages/messages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { reducer } from './heroes/state/heroes.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { HeroesEffects } from './heroes/state/heroes.effects';
 
 @NgModule({
   imports: [
@@ -27,7 +29,9 @@ import { reducer } from './heroes/state/heroes.reducer';
       InMemoryDataService, { dataEncapsulation: false }
     ),
     StoreModule.forRoot({}),
-    StoreModule.forFeature('heroes', reducer)
+    StoreModule.forFeature('heroes', reducer),
+    EffectsModule.forRoot([]),
+    EffectsModule.forFeature([HeroesEffects])
   ],
 
   declarations: [

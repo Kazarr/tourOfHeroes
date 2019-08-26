@@ -4,17 +4,33 @@ import { Hero } from 'src/app/hero';
 
 export enum HeroActionTypes {
   GetHeroes = '[Heores] Get heroes',
+  GetHeroesSuccess = '[Heroes] Get heroes Success',
+  GetHeroesFailed = '[Heroes] Get heroes Failed',
   InitializeHero = '[Heroes] Initialize hero',
-  DeleteHero = '[Heroes] DeleteHero',
+  DeleteHero = '[Heroes] Delete hero',
+  DeleteHeroSuccess = '[Heroes] Delete hero Success',
+  DeleteHeroFailed = '[Heroes] Delete hero Failed',
   SetCurrentHero = '[Heroes] Set Current Hero',
+  SaveHeroSuccess = '[Heroes] Save Hero Success',
+  SaveHeroFailed = '[Heroes] Save Hero Failed',
   SaveHero = '[Heroes] Save hero',
   UpdateHero = '[Heroes] Update hero'
 }
 
 export class GetHeroes implements Action {
   readonly type = HeroActionTypes.GetHeroes;
+}
 
-  constructor(public payload: Hero[]) { }
+export class GetHeroesSuccess implements Action {
+  readonly type = HeroActionTypes.GetHeroesSuccess;
+
+  constructor(public paylaod: Hero[]) { }
+}
+
+export class GetHeroesFailed implements Action {
+  readonly type = HeroActionTypes.GetHeroesFailed;
+
+  constructor(public payload: string) { }
 }
 
 export class InitializeHero implements Action {
@@ -27,6 +43,18 @@ export class DeleteHero implements Action {
   constructor(public payload: Hero) { }
 }
 
+export class DeleteHeroSuccess implements Action {
+  readonly type = HeroActionTypes.DeleteHeroSuccess;
+
+  constructor(public payload: Hero) { }
+}
+
+export class DeleteHeroFailed implements Action {
+  readonly type = HeroActionTypes.DeleteHeroFailed;
+
+  constructor(public payload: string) { }
+}
+
 export class SetCurrentHero implements Action {
   readonly type = HeroActionTypes.SetCurrentHero;
 
@@ -35,7 +63,17 @@ export class SetCurrentHero implements Action {
 
 export class SaveHero implements Action {
   readonly type = HeroActionTypes.SaveHero;
+  constructor(public payload: string) { }
+}
+
+export class SaveHeroSuccess implements Action {
+  readonly type = HeroActionTypes.SaveHeroSuccess;
   constructor(public payload: Hero) { }
+}
+
+export class SaveHeroFailed implements Action {
+  readonly type = HeroActionTypes.SaveHeroFailed;
+  constructor(public payload: string) { }
 }
 
 export class UpdateHero implements Action {
@@ -44,8 +82,14 @@ export class UpdateHero implements Action {
 }
 
 export type HeroActions = GetHeroes
+  | GetHeroesSuccess
+  | GetHeroesFailed
   | InitializeHero
   | DeleteHero
+  | DeleteHeroSuccess
+  | DeleteHeroFailed
   | SetCurrentHero
   | SaveHero
+  | SaveHeroSuccess
+  | SaveHeroFailed
   | UpdateHero;
