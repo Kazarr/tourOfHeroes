@@ -43,10 +43,11 @@ export class HeroDetailComponent implements OnInit {
   }
 
   save(): void {
-    this.heroService.updateHero(this.hero).subscribe(
-      () => {this.store.dispatch(new heroActions.UpdateHero(this.hero));
-             this.goBack();
-      }
-    );
+    this.store.dispatch(new heroActions.UpdateHero(this.hero));
+    // this.heroService.updateHero(this.hero).subscribe(
+    //   () => {this.store.dispatch(new heroActions.UpdateHero(this.hero));
+    //          this.goBack();
+    //   }
+    // );
   }
 }

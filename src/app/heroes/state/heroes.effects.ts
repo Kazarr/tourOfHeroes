@@ -43,16 +43,15 @@ export class HeroesEffects {
       ))
   );
 
-  // @Effect()
-  // updateUser$: Observable<Action> = this.actions$.pipe(
-  //     ofType(userActions.UserActionTypes.Update),
-  //     concatMap((action: userActions.Update) =>
-  //         this.userService.updateUser(action.payload).pipe(
-  //             map(() => (new userActions.UpdateSuccess())),
-  //             catchError((err: LocalizedErrorInfo) => of(new userActions.UpdateFail(err)))
-  //         ),
-  //     )
-  // );
+  @Effect()
+  updateHero$: Observable<Action> = this.actions$.pipe(
+    ofType(heroActions.HeroActionTypes.UpdateHero),
+    mergeMap((action: heroActions.UpdateHero) =>
+    this.heroService.updateHero(action.payload).pipe(
+      map(hero => (new heroActions.UpdateHeroSuccess(action.payload)),
+      catchError((err: string) => of(new heroActions.UpdateHeroFailed(err))))
+    ))
+  );
 
   // @Effect()
   // reloadUser$: Observable<Action> = this.actions$.pipe(
