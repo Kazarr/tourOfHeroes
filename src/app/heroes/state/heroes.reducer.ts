@@ -1,4 +1,4 @@
-import { Hero } from 'src/app/hero';
+import { Hero } from 'src/app/model/Hero';
 import { HeroActions, HeroActionTypes } from './heroes.actions';
 
 export interface HeroState {
@@ -31,7 +31,12 @@ export function reducer(state = initialState, action: HeroActions): HeroState {
         ...state,
         currentHero: {
           id: 0,
-          name: 'DefaulHero'
+          name: 'DefaulHero',
+          stamina: 0,
+          agility: 0,
+          strenght: 0,
+          intelect: 0,
+          level: 0
         }
       };
 

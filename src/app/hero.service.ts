@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Hero } from './hero';
+import { Hero } from './model/Hero';
 import { Observable, of } from 'rxjs';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-import { HEROES } from './mock-heroes';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
 
@@ -18,18 +17,18 @@ export class HeroService {
   private heroesUrl = 'api/heroes';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  }
+  };
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }
 
   getHeroes(): Observable<Hero[]> {
-    //TODO: send the message _after_ fetching the heroes
+    // TODO: send the message _after_ fetching the heroes
     return this.http.get<Hero[]>(this.heroesUrl)
       .pipe(
         tap(_ => this.log('fetched heroes')),
-        catchError(this.handleError<Hero[]>('getHeroes', [])))
+        catchError(this.handleError<Hero[]>('getHeroes', [])));
   }
 
   getHero(id: number): Observable<Hero> {
@@ -41,7 +40,7 @@ export class HeroService {
       );
   }
 
-  /**Post: add a new hero to the server */
+  /** Post: add a new hero to the server */
   addHero(heroName: string): Observable<Hero> {
     return this.http.post<Hero>(this.heroesUrl, {name: heroName} as Hero, this.httpOptions).pipe(
       tap((newHero: Hero) => this.log(`added hero w/ id = ${newHero.id}`)),
@@ -49,7 +48,7 @@ export class HeroService {
     );
   }
 
-  /**PUT: update the hero on the server */
+  /** PUT: update the hero on the server */
   updateHero(hero: Hero): Observable<any> {
     return this.http.put(this.heroesUrl, hero, this.httpOptions).pipe(
       tap(_ => this.log(`updated hero id=${hero.id}`)),
@@ -70,7 +69,7 @@ export class HeroService {
   /*GET hereoes whose name contains search term */
   searchHeroes(term: string): Observable<Hero[]> {
     if (!term.trim()) {
-      //if not search term, return empty hero array.
+      // if not search term, return empty hero array.
       return of([]);
     }
     return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
@@ -79,7 +78,7 @@ export class HeroService {
     );
   }
 
-  /**Log a HeroService message with the MessageService */
+  /** Log a HeroService message with the MessageService */
   private log(message: string) {
     this.messageService.add(`HeroService: ${message}`);
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Hero } from '../hero';
+import { Hero } from '../model/Hero';
 import { Location } from '@angular/common';
 
 import { Store, select } from '@ngrx/store';
