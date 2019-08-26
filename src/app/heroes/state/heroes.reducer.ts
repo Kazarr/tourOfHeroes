@@ -20,10 +20,10 @@ export function reducer(state = initialState, action: HeroActions): HeroState {
         currentHero: { ...action.payload }
       };
 
-    case HeroActionTypes.GetHeroes:
+    case HeroActionTypes.GetHeroesSuccess:
       return {
         ...state,
-        heroes: action.payload
+        heroes: action.paylaod
       };
 
     case HeroActionTypes.InitializeHero:
@@ -35,25 +35,26 @@ export function reducer(state = initialState, action: HeroActions): HeroState {
         }
       };
 
-    case HeroActionTypes.DeleteHero:
+    case HeroActionTypes.DeleteHeroSuccess:
       return {
         ...state,
         heroes: [...state.heroes].filter(hero => hero.id !== action.payload.id)
       };
 
-    case HeroActionTypes.SaveHero:
+    case HeroActionTypes.SaveHeroSuccess:
       return {
         ...state,
         heroes: [...state.heroes, action.payload]
       };
 
-    case HeroActionTypes.UpdateHero:
+    case HeroActionTypes.UpdateHeroSuccess:
       const newHeroes = state.heroes;
       const heroIndex = newHeroes.findIndex(h => h.id === action.payload.id);
       newHeroes[heroIndex] = action.payload;
       return {
           ...state,
-          heroes: newHeroes
+          heroes: state.heroes.map(hero => hero.id === action.payload.id
+            ? {...action.payload} : hero)
         };
 
     default:

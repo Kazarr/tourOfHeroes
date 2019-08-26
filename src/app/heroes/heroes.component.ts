@@ -16,17 +16,18 @@ export class HeroesComponent implements OnInit {
   heroes: Hero[];
 
 
-  constructor(private heroService: HeroService,
-              private store: Store<State>) { }
+  constructor(
+    private heroService: HeroService,
+    private store: Store<State>) { }
 
   ngOnInit() {
-    this.store.pipe(select(fromHeroes.getHeroes)).subscribe(
-      heroes => this.heroes = heroes
-    );
+    this.refreshHeroesFromState();
+  }
 
-    this.heroService.getHeroes().subscribe(
-      fetchedHeroes => this.store.dispatch(new heroActions.GetHeroes(fetchedHeroes)),
-      err => console.log(err)
+  refreshHeroesFromState(){
+    this.store.dispatch(new heroActions.GetHeroes());
+    this.store.pipe(select(fromHeroes.getHeroes)).subscribe(
+      fetchedHeroes => this.heroes = fetchedHeroes
     );
   }
 
@@ -37,14 +38,14 @@ export class HeroesComponent implements OnInit {
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
-    this.heroService.addHero({ name } as Hero).subscribe(
-      hero => this.store.dispatch(new heroActions.SaveHero(hero))
-    );
+    this.store.dispatch(new heroActions.SaveHero(name));
   }
 
   delete(hero: Hero): void {
-    this.heroService.deleteHero(hero).subscribe(
-      () => this.store.dispatch(new heroActions.DeleteHero(hero))
-    );
+    this.store.dispatch(new heroActions.DeleteHero(hero));
+    // this.refreshHeroesFromState();
+    // this.heroService.deleteHero(hero).subscribe(
+    //   () => this.store.dispatch(new heroActions.DeleteHero(hero))
+    // );
   }
 }
