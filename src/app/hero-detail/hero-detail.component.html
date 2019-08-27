@@ -1,9 +1,9 @@
-<div *ngIf="hero">
-  <h2>{{hero.name | uppercase}} Details</h2>
-  <div><span>id: </span>{{hero.id}}</div>
+<div *ngIf="fcHeroId && fcHeroName">
+  <h2>{{fcHeroName.value | uppercase}} Details</h2>
+  <div><span>id: </span>{{fcHeroId.value}}</div>
   <div>
     <label>name:
-      <input [(ngModel)]="hero.name" placeholder="name"/>
+      <input type="text" [formControl]="fcHeroName" value={{fcHeroName.value}}  placeholder="name"/>
     </label>
   </div>
 </div>

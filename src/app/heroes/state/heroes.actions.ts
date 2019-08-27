@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Hero } from 'src/app/hero';
+import { Hero } from 'src/app/model/Hero';
 
 
 export enum HeroActionTypes {

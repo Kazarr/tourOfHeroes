@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Hero } from '../Hero';
+import { Hero } from '../model/Hero';
 import { HeroService } from '../hero.service';
 import { Store, select } from '@ngrx/store';
 import { ThrowStmt } from '@angular/compiler';
@@ -25,7 +25,9 @@ export class HeroesComponent implements OnInit {
   }
 
   refreshHeroesFromState() {
-    this.store.dispatch(new heroActions.GetHeroes());
+    if (this.heroes === undefined) {
+      this.store.dispatch(new heroActions.GetHeroes());
+    }
     this.store.pipe(select(fromHeroes.getHeroes)).subscribe(
       fetchedHeroes => this.heroes = fetchedHeroes
     );

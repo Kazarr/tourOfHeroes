@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Hero } from '../hero';
+import { Hero } from '../model/Hero';
 import { HeroService } from '../hero.service';
 import { State } from '../state/app.state';
 import * as fromHeroes from '../heroes/state/heroes.selector';
