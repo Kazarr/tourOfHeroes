@@ -25,7 +25,9 @@ export class HeroesComponent implements OnInit {
   }
 
   refreshHeroesFromState() {
-    this.store.dispatch(new heroActions.GetHeroes());
+    if (this.heroes === undefined) {
+      this.store.dispatch(new heroActions.GetHeroes());
+    }
     this.store.pipe(select(fromHeroes.getHeroes)).subscribe(
       fetchedHeroes => this.heroes = fetchedHeroes
     );

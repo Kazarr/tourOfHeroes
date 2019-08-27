@@ -7,6 +7,7 @@ import { Store, select } from '@ngrx/store';
 import { State } from '../state/app.state';
 import * as heroActions from '../heroes/state/heroes.actions';
 import * as fromHeroes from '../heroes/state/heroes.selector';
+import { FormControl } from '@angular/forms';
 
 
 
@@ -16,7 +17,9 @@ import * as fromHeroes from '../heroes/state/heroes.selector';
   styleUrls: ['./hero-detail.component.css']
 })
 export class HeroDetailComponent implements OnInit {
-  @Input() hero: Hero;
+   fcHeroName = new FormControl('');
+   fcHeroId = new FormControl('');
+  //  @Input() hero: Hero;
 
   constructor(
     private location: Location,
@@ -24,8 +27,11 @@ export class HeroDetailComponent implements OnInit {
 
   ngOnInit() {
     this.store.pipe(select(fromHeroes.getCurrentHero)).subscribe(
-      currentHero => this.hero = currentHero
-    );
+      currentHero => {
+        this.fcHeroId.setValue(currentHero.id);
+        this.fcHeroName.setValue(currentHero.name);
+        // this.hero = currentHero;
+      });
 
   }
 
@@ -34,6 +40,7 @@ export class HeroDetailComponent implements OnInit {
   }
 
   save(): void {
-    this.store.dispatch(new heroActions.UpdateHero(this.hero));
+    this.store.dispatch(new heroActions.UpdateHero({name: this.fcHeroName.value, id: this.fcHeroId.value} as Hero));
+    this.goBack();
   }
 }

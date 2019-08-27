@@ -32,11 +32,11 @@ export function reducer(state = initialState, action: HeroActions): HeroState {
         currentHero: {
           id: 0,
           name: 'DefaulHero',
-          stamina: 0,
-          agility: 0,
-          strenght: 0,
-          intelect: 0,
-          level: 0
+          // stamina: 0,
+          // agility: 0,
+          // strenght: 0,
+          // intelect: 0,
+          // level: 0
         }
       };
 
